@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Seasons of Art</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+
+    <script>
+        var sakuras = [];
+        var rains = [];
+        var leaves = [];
+        var snows = [];
+
+
+        function setup() {
+            createCanvas(800, 800);
+            // preview
+            background(0);
+            textAlign(CENTER); 
+            fill(255);
+            textSize(50);
+            text("Welcome to the seasons of art!", 400, 100);
+            textSize(30);
+            text("press the letter to view the seasons.", 400, 150);
+            text("press any other letter to go back to this page.", 400, 200);
+            
+            //rectangles that have it's own color representing each season 
+            noStroke();
+            choices(" 's' for Spring Sakura", 200, 300, 60, 200, 250);
+            choices(" 'r' for Summer Rain", 300, 400, 20, 220, 190);
+            choices(" 'l' for Autumn Leaf", 400, 500, 250, 180, 70);
+            choices(" 'w' for Winter Snow", 500, 600, 250, 250, 250);
+        }
+
+
+        function draw() {
+
+            //'s' for Spring Sakura
+            if (keyCode == 83) {
+                background(60, 200, 250);
+                //every 40 seconds add a new sakura
+                if (frameCount % 40 == 0) {
+                    sakuras.push(new Sakura());
+                }
+                //sakura is display and moving
+                for (var i = 0; i < sakuras.length; i++) {
+                    sakuras[i].move();
+                    sakuras[i].display();
+                }
+            }
+            //'r' for Summer Rain
+            else if (keyCode == 82) {
+                background(20, 220, 190);
+                
+                if (frameCount % 0.25 == 0) {
+                    rains.push(new Rain());
+                }
+                    
+                for (var i = 0; i < rains.length; i++) {
+                    rains[i].move();
+                    rains[i].display();
+                }
+            }
+            //'l' for Autumn Leaf
+            else if (keyCode == 76) {
+                background(250, 180, 70);
+
+                if (frameCount % 40 == 0) {
+                    leaves.push(new Leaf());
+                }
+
+                for (var i = 0; i < leaves.length; i++) {
+                    leaves[i].move();
+                    leaves[i].display();
+                }
+            }
+            //'w' for Winter Snow
+            else if (keyCode == 87) {
+                background(250);
+
+                if (frameCount % 0.25 == 0) {
+                    snows.push(new Snow());
+                }
+
+                for (var i = 0; i < snows.length; i++) {
+                    snows[i].move();
+                    snows[i].display();
+                }
+            }
+            //'enter' for preview
+            else if (keyCode == 13) {
+                //reseting to preview
+                background(0);
+                textAlign(CENTER);
+                fill(255);
+                textSize(50);
+                text("Welcome to the seasons of art!", 400, 100);
+
+                noStroke();
+                choices(" 's' for Spring Sakura", 200, 200, 60, 200, 250);
+                choices(" 'r' for Summer Rain", 300, 300, 20, 220, 190);
+                choices(" 'l' for Autumn Leaf", 400, 400, 250, 180, 70);
+                choices(" 'w' for Winter Snow", 500, 500, 250, 250, 250);
+            }
+
+        }
+
+        function choices(name, x, y, r, g, b) {
+            //rectangles of choices
+            textAlign(LEFT);
+            fill(255);
+            textSize(20);
+            text(name, x, y);
+            fill(r, g, b);
+            rect(x, y + 10, 100, 800 - y);
+        }
+
+        function Sakura() {
+            //variables
+            this.x = random(width);
+            this.y = random(50);
+
+            //functions
+            this.move = function() {
+                this.y += random(1, 2);
+            }
+
+            this.display = function() {
+                noStroke();
+                fill(240, 190, 240); //Sakura pink
+                ellipse(this.x - 15, this.y, 30); // left
+                ellipse(this.x, this.y - 15, 30); // top
+                ellipse(this.x + 15, this.y, 30); // right
+                ellipse(this.x, this.y + 15, 30); // bottom
+                fill(230, 240, 150); //Sakura yellow (middle)
+                ellipse(this.x, this.y, 20); // center
+
+            }
+        }
+
+        function Rain() {
+            //variables
+            this.x = random(width);
+            this.y = 0;
+
+            //functions
+            this.move = function() {
+                this.y += random(3, 4);
+            }
+
+            this.display = function() {
+                stroke(0, 0, 255);
+                strokeWeight(3);
+                line(this.x, this.y, this.x - 5, this.y + 30);
+
+            }
+        }
+
+        function Leaf() {
+            //variables
+            this.x = random(width);
+            this.y = random(50);
+            this.g = random(100, 200);
+
+            //functions
+            this.move = function() {
+                this.y += random(1, 2);
+            }
+
+            this.display = function() {
+                stroke(0);
+                strokeWeight(1.5);
+                fill(200, this.g, 0);
+                ellipse(this.x, this.y, 30, 50);
+                line(this.x, this.y - 30, this.x, this.y);
+
+            }
+        }
+
+        function Snow() {
+            //variables
+            this.x = random(width);
+            this.y = 0;
+
+            //functions
+            this.move = function() {
+                this.y += random(3, 5);
+            }
+
+            this.display = function() {
+                strokeWeight(2);
+                stroke(0);
+                fill(255);
+                ellipse(this.x, this.y, 10, 10);
+            }
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/chenirene7418/p5js/blob/master/object.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
